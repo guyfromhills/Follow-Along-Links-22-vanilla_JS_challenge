@@ -1,41 +1,48 @@
 
 
 
+//grabbing all the links
+const triggers = document.querySelectorAll("a");
 
-//grab all the links
-const triggers = document.querySelectorAll('a');
-
-//making span element
+//create a span element
 const highlight = document.createElement("span");
 
-//adding class of  to span
+//add class of highlight to span
 highlight.classList.add("highlight");
 
-//put it in DOM
+//add span element to DOM
 document.body.append(highlight);
 
-function highlightLink()
+//method
+function highlightWork(e)
 {
+    //get the size info of trigger element   
+    const linkCoords = this.getBoundingClientRect();
+    console.log(linkCoords);
 
-    const linkCords = this.getBoundingClientRect();
-    console.log(linkCords);
-
-    const coords = { 
-        width : linkCords.width,
-        height : linkCords.height,
-        top: linkCords.top + window.scrollY,
-        left: linkCords.left + window.scrollX
+    //to compensate for the offset of highlight's position, create coords object for using it's properties
+    const coords = {
+        width : linkCoords.width,
+        height : linkCoords.height,
+        top : linkCoords.top + window.scrollY,
+        left : linkCoords.left + window.scrollX
     };
+        
 
+
+
+    //set width and height of highlight as linkCoords( width and height) 
     highlight.style.width = `${coords.width}px`;
     highlight.style.height = `${coords.height}px`;
+    highlight.style.transform = `translate(${coords.left}px,${coords.top}px)`;
 
-    highlight.style.transform = `translate(${coords.left}px, ${coords.top}px`;
-
+    
 }
 
 
-//if mouseEnter the trigger, call highlightLink
+
+
+//if mouse moves over triggers then call highlightWork method
 triggers.forEach(function (trigger){
-    trigger.addEventListener("mouseenter", highlightLink)
+    trigger.addEventListener("mouseenter", highlightWork);
 })
